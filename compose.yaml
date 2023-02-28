@@ -1,16 +1,27 @@
 services:
-  frontend:
-    image: traefik:2.6
-    command: --providers.docker --entrypoints.web.address=:80 --providers.docker.exposedbydefault=false
+  nc:
+    image: nextcloud:apache
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
     ports:
-      - "80:80"
+      - 100:100
+    restart: always
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - backend
-  backend:
-    build: backend
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.go.rule=Path('/')"
-      - "traefik.http.services.go.loadbalancer.server.port=80"
+      - nc_data:/var/www/html
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+volumes:
+  db_data:
+  nc_data:
