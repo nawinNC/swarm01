@@ -1,14 +1,10 @@
 services:
-  portainer:
-    image: portainer/portainer-ce:alpine
-    container_name: portainer
-    command: -H unix:///var/run/docker.sock
-    ports:
-      - "900:900"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "portainer_data:/data"
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - VERSION=docker
     restart: always
-
-volumes:
-  portainer_data:
+    volumes:
+      - ${PLEX_MEDIA_PATH}:/media/
