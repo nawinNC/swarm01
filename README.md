@@ -130,4 +130,4 @@ git commit -m "openProject"
 git push origin master
 ```
 
-## ยังไม่สมบูรณ์นะครับบบ
+## ยังไม่เสร็จสมบูรณ์นะครับ
