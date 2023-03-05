@@ -1,21 +1,21 @@
 # Ref
 - [https://github.com/docker/awesome-compose/tree/master/plex]
 
-### wakatime swarm02 link
-- [https://wakatime.com/@spcn15/projects/dvkdfnxive?start=2023-02-27&end=2023-03-05] 
+### wakatime swarm01 link
+- [https://wakatime.com/projects/swarm01?start=2023-02-27&end=2023-03-05] 
 
 
-## Create VM template 
+## สร้าง VM template / Create VM template
   * Os Ubuntu 22.04
   * Cpu 2 core
   * Memory 2024 MB
   * Storege 32 GB
-#### After create VM 
- * Set timezone Bangkok Thailand
+#### หลังจากสร้าง VM / After create VM
+ * ตั้งเวลาไทม์โซน / Set timezone Bangkok Thailand
 ``` 
  timedatectl set-timezone Asia/Bangkok
 ``` 
- * Install docker engine for Ubuntu
+ * ติดตั้ง Docker / Install docker engine for Ubuntu
  ``` 
  apt update ; apt upgrade -y
 apt-get install \
@@ -34,16 +34,16 @@ echo \
 apt-get update
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ``` 
-  * Update services after install Docker
+  * อัปเดต sevices หลังติดตั้ง Docker / Update services after install Docker 
 ``` 
 apt update
 apt upgrade -y
 ``` 
-  * One time reboot node
+  * reboot node
 ``` 
 reboot
 ``` 
-### Run this code for set VM config to clone
+### ตั้งค่า config / Run this code for set VM config to clone
 ```
 cp /dev/null /etc/machine-id
 rm /var/lib/dbus/machine-id
@@ -55,43 +55,43 @@ init 0
 sudo usermod -aG docker $USER
 docker ps
 ```
-
-## Prepare node Ubuntu 22.04 clon from template
+ 
+## เตรียม node Ubuntu 22.04 ที่โคลนจาก template / Prepare node Ubuntu 22.04 clon from template
   * Node1 manager node 
   * Node2 work1
   * Node3 work2
  
-### After clone node
- * Use sudo mode for set time and hostname (all three node)
+### หลังจากโคลน / After clone node
+ * Use sudo mode for set time and hostname (all three node) / ใช้ sudo mode เพื่อตั้งเวลา และ hostname
 ``` 
  sudo -i 
 ``` 
- * Set hostname for in each node
+ * ตั้ง hostname สำหรับในแต่ละโหนด / Set hostname for in each node
    * Node 1 set hostname to "manager"
-   * Node 2 set hostname to "work1"
+   * Node 2 set hostname to "work01"
    * Node 3 set hostname to "work2"
 ``` 
  hostnamectl set-hostname “Change-me”
 ``` 
-## In manager node
-#### Can run this command to see node ip for remote ssh with VS code (manager node) and Vs code requires extension ssh remote
+## ใน manager node 
+#### สามารถเรียกใช้คำสั่งนี้เพื่อดูโหนด ip สำหรับ remote ssh จาก VS code (manager) และ VS code ต้องใช้ส่วนขยาย ssh remote / Can run this command to see node ip for remote ssh with VS code (manager node) and Vs code requires extension ssh remote 
 ``` 
  ip a
 ```
-#### After ss้h remote with vs code. Install this extensions
+#### หลังจาก เชื่อม ssh remote กับ vs code ให้ติดตั้งส่วนขยาย ดังนี้ / After ssh remote with vs code. Install this extensions
   * Docker
   * Git hub
   * Wakatime and enter api key
-#### Run this command to gennarate token for run on work node
+#### ใช้คำสั่งนี้เพื่อสร้าง token / Run this command to gennarate token for run on work node
 ``` 
  docker swarm init
 ```
   * And copy token for run on work node
-#### After enter token on work node can run this code for check member node
+#### หลังจากใช้ token บน work node แล้วใช้คำสั่งนี้เพื่อเช็คสมาชิก node / After enter token on work node can run this code for check member node
 ``` 
  docker node ls
 ```
-#### Deploy portainer for swarm 
+#### ปรับใช้ portainer สำหรับ swarm / Deploy portainer for swarm 
 ``` 
  curl -L https://downloads.portainer.io/ce2-17/portainer-agent-stack.yml -o portainer-agent-stack.yml
 docker stack deploy -c portainer-agent-stack.yml portainer
