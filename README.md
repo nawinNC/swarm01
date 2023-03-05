@@ -4,7 +4,6 @@
 ### wakatime swarm01 link
 - [https://wakatime.com/projects/swarm01?start=2023-02-27&end=2023-03-05] 
 
-
 ## สร้าง VM template / Create VM template
   * Os Ubuntu 22.04
   * Cpu 2 core
@@ -119,9 +118,9 @@ mrkdir swarm02
 ``` 
 Git init
 ```
-  * Go to swarm01 for choose application potainer frome (https://github.com/docker/awesome-compose/tree/master/portainer)
-  * Create README.md and compose.yaml file
-  * Run this command to commit file
+  * ไปที่ swarm01 เพื่อเลือก application potainer / Go to swarm01 for choose application potainer frome (https://github.com/docker/awesome-compose/tree/master/portainer)
+  * สร้าง README.md และ compose.yaml / Create README.md and compose.yaml file
+  * เรียกใช้คำสั่งนี้เพื่อส่งไฟล์ / Run this command to commit file
 ``` 
 git commit -m "openProject"
 ```
