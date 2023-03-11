@@ -59,53 +59,33 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/
  apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
  ```  
 
-### Run this code for docker authorited
+* ให้สิทธิ์ใช้ Docker
 ```
 sudo usermod -aG docker $USER
 docker ps
 ```
- 
-## เตรียม node Ubuntu 22.04 ที่โคลนจาก template / Prepare node Ubuntu 22.04 clon from template
-  * Node1 manager node 
-  * Node2 work1
-  * Node3 work2
- 
-### หลังจากโคลน / After clone node
- * Use sudo mode for set time and hostname (all three node) / ใช้ sudo mode เพื่อตั้งเวลา และ hostname
-``` 
- sudo -i 
-``` 
- * ตั้ง hostname สำหรับในแต่ละโหนด / Set hostname for in each node
-   * Node 1 set hostname to "manager"
-   * Node 2 set hostname to "work01"
-   * Node 3 set hostname to "work2"
-``` 
- hostnamectl set-hostname “Change-me”
-``` 
-## ใน manager node 
-#### สามารถเรียกใช้คำสั่งนี้เพื่อดูโหนด ip สำหรับ remote ssh จาก VS code (manager) และ VS code ต้องใช้ส่วนขยาย ssh remote / Can run this command to see node ip for remote ssh with VS code (manager node) and Vs code requires extension ssh remote 
-``` 
- ip a
-```
-#### หลังจาก เชื่อม ssh remote กับ vs code ให้ติดตั้งส่วนขยาย ดังนี้ / After ssh remote with vs code. Install this extensions
+### เชื่อม VM กับ VS code โดย extensions "remote ssh"
+### หลังจาก เชื่อม ssh remote กับ vs code ให้ติดตั้งส่วนขยาย ดังนี้
   * Docker
   * Git hub
   * Wakatime and enter api key
-#### ใช้คำสั่งนี้เพื่อสร้าง token / Run this command to gennarate token for run on work node
+# ติดตั้ง Swarm
+* ใช้คำสั่งนี้เพื่อสร้าง token จาก VM manager
 ``` 
  docker swarm init
 ```
-  * And copy token for run on work node
-#### หลังจากใช้ token บน work node แล้วใช้คำสั่งนี้เพื่อเช็คสมาชิก node / After enter token on work node can run this code for check member node
+* และนำ token ที่ได้มาไปใช้ใน work node
+* หลังจากใช้ token บน work node แล้วใช้คำสั่งนี้เพื่อเช็คสมาชิก node
 ``` 
  docker node ls
 ```
-#### ปรับใช้ portainer สำหรับ swarm / Deploy portainer for swarm 
+### Deploy portainer สำหรับ swarm 
+* คำสั่ง
 ``` 
  curl -L https://downloads.portainer.io/ce2-17/portainer-agent-stack.yml -o portainer-agent-stack.yml
 docker stack deploy -c portainer-agent-stack.yml portainer
 ```
-  * go to this port https://localhost:9443
+* เข้าหน้าเว็บโดย https://localhost:9443
 ## In work node ( work1,work2 )
   * Can switch manager node to work node by this code ( on Vs code )
 ``` 
