@@ -6,8 +6,6 @@ services:
     - webproxy 
     logging:
       driver: json-file 
-    volumes: 
-      - ${PLEX_MEDIA_PATH}:/media/
     container_name: plexapp
     deploy: 
       replicas: 1 
