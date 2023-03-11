@@ -7,6 +7,15 @@
 ## URL plexapplication
 - https://winncplex.xops.ipv9.me
 
+## ขั้นตอนการติดตั้ง
+[1.ติดตั้ง Docker](https://github.com/nawinNC/swarm01/edit/main/README.md#%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87-docker-for-ubuntu-%E0%B8%A5%E0%B8%87%E0%B9%83%E0%B8%99%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%A5%E0%B8%B0-node)
+
+[2.ติดตั้ง swarm](https://github.com/nawinNC/swarm01/edit/main/README.md#%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87-swarm)
+
+[3.ติดตั้ง Traefik](https://github.com/nawinNC/swarm01/edit/main/README.md#%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87-traefik)
+
+[4.สร้าง images และ push ขึ้น git pull](https://github.com/nawinNC/swarm01/edit/main/README.md#%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-images-%E0%B9%80%E0%B8%95%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%A1-push-%E0%B8%82%E0%B8%B6%E0%B9%89%E0%B8%99-dockerhub)
+
 ## สร้าง VM
  * OS Ubuntu 22.04
  * CPU 2 core
@@ -115,7 +124,7 @@
 ```
  docker node update --label-add traefik-public.traefik-public-certificates=true $NODE_ID
 ```
-**สามารถเปลี่ยน Email Domain Username Password ได้ตามที่เราต้องการ
+**สามารถเปลี่ยน Email Domain Username Password ได้ตามที่เราต้องการ**
 ```
 export EMAIL=user@smtp.com
 export DOMAIN=traefik.cpedemo.local
@@ -132,7 +141,7 @@ docker stack deploy -c traefik-host.yml traefik
 ![image](https://user-images.githubusercontent.com/115439255/224511599-14da61f8-9473-4c42-ac3a-a320ff8b67d9.png)
 
 ## สร้าง Plex
-**สร้าง Images เตรียม Push ขึ้น Dockerhub**
+### สร้าง Images เตรียม Push ขึ้น Dockerhub
 ```      
  sudo docker images           //ใช้ดู images
 ```
@@ -153,6 +162,7 @@ docker stack deploy -c traefik-host.yml traefik
 **Add stacks บน portainer**
 ![image](https://user-images.githubusercontent.com/115439255/224512515-16e6e96b-a3f8-4246-8444-5440c2f1e107.png)
 **โดยใช้คำสั่ง**
+
 ```
 version: '3.3' 
 services:
@@ -182,6 +192,7 @@ networks:
   webproxy: 
     external: true
 ```
+
 ![image](https://user-images.githubusercontent.com/115439255/224512605-342a7690-d0c1-4542-a6e4-924e4e85381f.png)
 
 **เข้าดูผลลัพธ์ของ image ที่เลือกได้โดยใช้ host ที่เราตั้งไว้ : winncplex.xops.ipv9.me**
