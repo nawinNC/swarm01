@@ -12,6 +12,9 @@
  * CPU 2 core
  * Memory 2024 MB
  * Storege 32 GB
+
+![image](https://user-images.githubusercontent.com/115439255/224511759-6dbef96d-f1c8-4211-8ef9-6d14014e45df.png)
+
  
 ## ตั้ง timezone
  ```
@@ -26,6 +29,10 @@
    * Node 1 คือ "manager"
    * Node 2 คือ "work1"
    * Node 3 คือ "work2"
+ 
+ ![image](https://user-images.githubusercontent.com/115439255/224511745-572a2da8-c51a-469f-8b4a-754475e73769.png)
+
+ 
  ``` 
  sudo -i        // เข้า root
  ``` 
@@ -76,4 +83,52 @@
 ``` 
  docker node ls        // ดู node ที่เชื่อมต่อกับ swarm
 ```
+![image](https://user-images.githubusercontent.com/115439255/224511718-c4b7fd44-6b76-4097-b807-2da6a87749ef.png)
+
+
 ## Deploy portainer สำหรับใช้กับ swarm
+``` 
+ curl -L https://downloads.portainer.io/ce2-17/portainer-agent-stack.yml -o portainer-agent-stack.yml
+ docker stack deploy -c portainer-agent-stack.yml portainer
+```
+## ติดตั้ง Traefik 
+**สร้าง Folder ของ traefik และ สร้าง File ใน Folder ชื่อ traefik-host.yml ดังรูป**
+
+![image](https://user-images.githubusercontent.com/115439255/224510864-f3337066-9976-4004-9f79-c328dcd8176c.png)
+
+**โดยข้อมูลใน File อ้างอิงมาจาก [ https://github.com/pitimon/dockerswarm-inhoure/tree/main/ep03-traefik ]**
+
+**เข้าไปที่ C:\Windows\System32\drivers\etc และเข้าไปทำการเพิ่ม domain ของ traefik ใน file hosts**
+
+![image](https://user-images.githubusercontent.com/115439255/224511257-6156c833-74ac-4799-b9ce-56b75353dd68.png)
+![image](https://user-images.githubusercontent.com/115439255/224511390-9e17114c-9e77-41ac-994c-82d764d5ab08.png)
+
+**Create a network**
+``` 
+ docker network create --driver=overlay traefik-public
+```
+**Create a tag**
+```
+ export NODE_ID=$(docker info -f '{{.Swarm.NodeID}}')
+ echo $NODE_ID
+```
+```
+ docker node update --label-add traefik-public.traefik-public-certificates=true $NODE_ID
+```
+**สามารถเปลี่ยน Email Domain Username Password ได้ตามที่เราต้องการ
+```
+export EMAIL=user@smtp.com
+export DOMAIN=traefik.cpedemo.local
+export USERNAME=admin
+export PASSWORD=changeMe
+export HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)
+echo $HASHED_PASSWORD
+```
+**deploy traefik**
+```
+docker stack deploy -c traefik-host.yml traefik
+```
+**สามารถทดลองเข้าเว็บได้โดย : traefik.cpedemo.local**
+![image](https://user-images.githubusercontent.com/115439255/224511599-14da61f8-9473-4c42-ac3a-a320ff8b67d9.png)
+
+## 
