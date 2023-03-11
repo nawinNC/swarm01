@@ -131,4 +131,60 @@ docker stack deploy -c traefik-host.yml traefik
 **สามารถทดลองเข้าเว็บได้โดย : traefik.cpedemo.local**
 ![image](https://user-images.githubusercontent.com/115439255/224511599-14da61f8-9473-4c42-ac3a-a320ff8b67d9.png)
 
-## 
+## สร้าง Plex
+**สร้าง Images เตรียม Push ขึ้น Dockerhub**
+```      
+ sudo docker images           //ใช้ดู images
+```
+**Login Docker**
+```
+  docker login                //ใช้ login กับ dockerhub โดยใช้ username กับ password ของ dockerhub ที่เราต้องการ
+```
+**กำหนด tag**
+```
+   docker tag linuxserver/plex:latest nawinnc/plex:0700
+```
+**Push ขึ้นไปที่ Docker Hub**
+```
+   docker push nawinnc/plex:0700
+```
+![image](https://user-images.githubusercontent.com/115439255/224512340-4205bf33-71ac-40af-a23b-8a5a0e082cb5.png)
+
+**Add stacks บน portainer**
+![image](https://user-images.githubusercontent.com/115439255/224512515-16e6e96b-a3f8-4246-8444-5440c2f1e107.png)
+**โดยใช้คำสั่ง**
+```
+version: '3.3' 
+services:
+  test-volume: 
+    image: nawinnc/plex:0700 
+    networks: 
+    - webproxy 
+    logging:
+      driver: json-file 
+    deploy: 
+      replicas: 1 
+      labels: 
+        - traefik.docker.network=webproxy
+        - traefik.enable=true
+        - traefik.http.routers.${APPNAME}-https.entrypoints=websecure
+        - traefik.http.routers.${APPNAME}-https.rule=Host("${APPNAME}.xops.ipv9.me")
+        - traefik.http.routers.${APPNAME}-https.tls.certresolver=default
+        - traefik.http.services.${APPNAME}.loadbalancer.server.port=32400
+      resources: 
+        reservations: 
+          cpus: '0.1'
+          memory: 10M
+        limits: 
+          cpus: '0.4'
+          memory: 150M
+networks: 
+  webproxy: 
+    external: true
+```
+![image](https://user-images.githubusercontent.com/115439255/224512605-342a7690-d0c1-4542-a6e4-924e4e85381f.png)
+
+**เข้าดูผลลัพธ์ของ image ที่เลือกได้โดยใช้ host ที่เราตั้งไว้ : winncplex.xops.ipv9.me**
+
+![image](https://user-images.githubusercontent.com/115439255/224512653-f7d408f3-c83b-4dfb-91ee-85d4f670f098.png)
+
