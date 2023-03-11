@@ -1,54 +1,64 @@
 # Ref
 - [https://github.com/docker/awesome-compose/tree/master/plex]
 
-### wakatime swarm01 link
-- [https://wakatime.com/projects/swarm01?start=2023-02-27&end=2023-03-05] 
+# URL wakatime swarm01
+- [https://wakatime.com/@spcn15/projects/dvkdfnxive] 
 
-## สร้าง VM template / Create VM template
+# สร้าง VM template
   * Os Ubuntu 22.04
   * Cpu 2 core
   * Memory 2024 MB
   * Storege 32 GB
-#### หลังจากสร้าง VM / After create VM
- * ตั้งเวลาไทม์โซน / Set timezone Bangkok Thailand
+  
+## หลังจากสร้าง VM
+ * ตั้งเวลาไทม์โซน
 ``` 
  timedatectl set-timezone Asia/Bangkok
+```
+# Clone VM มา 3 node ได้แก่ Manager Work1 Work2
+* เปลี่ยน Hostname VM แต่ละ node 
+   * Node 1 คือ "manager"
+   * Node 2 คือ "work1"
+   * Node 3 คือ "work2"
 ``` 
- * ติดตั้ง Docker / Install docker engine for Ubuntu
- ``` 
- apt update ; apt upgrade -y
-apt-get install \
-    ca-certificates \
-    curl wget \
-    gnupg \
-    lsb-release -y
-
-mkdir -m 0755 -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" |  tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+ sudo -i 
 ``` 
-  * อัปเดต sevices หลังติดตั้ง Docker / Update services after install Docker 
 ``` 
-apt update
-apt upgrade -y
-``` 
-  * reboot node
-``` 
-reboot
-``` 
-### ตั้งค่า config / Run this code for set VM config to clone
+ hostnamectl set-hostname “Change-me”
+```
+* เช็คและเปลี่ยน ip ของแต่ละ node ให้ไม่ซ้ำกัน
+```
+ip a
+```
 ```
 cp /dev/null /etc/machine-id
 rm /var/lib/dbus/machine-id
 ln -s /etc/machine-id /var/lib/dbus/machine-id
 init 0
 ```
+ * ติดตั้ง Docker for Ubuntu ลงในแต่ละ node
+ ``` 
+ apt update ; apt upgrade -y
+ apt-get install \
+    ca-certificates \
+    curl wget \
+    gnupg \
+    lsb-release -y
+ ```
+ ```
+mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+ ```
+ ```
+ echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" |  tee /etc/apt/sources.list.d/docker.list > /dev/null
+ ```
+ ```
+ apt-get update
+ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+ ```  
+
 ### Run this code for docker authorited
 ```
 sudo usermod -aG docker $USER
