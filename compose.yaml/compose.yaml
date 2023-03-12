@@ -8,3 +8,4 @@ services:
     restart: always
     volumes:
       - ${PLEX_MEDIA_PATH}:/media/
+  
